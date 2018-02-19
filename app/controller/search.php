@@ -20,7 +20,7 @@ class search {
         } else if ($request->isGet()) {
             $bookName = filter_var(@$args['bookName'], FILTER_SANITIZE_STRING);
         }
-
+        
         $books = $this->container->db->select("books", "*", ["OR" => ["name" => $bookName, "author" => $bookName]]);
 
         $response = $this->sendResponse($request, $response, "search.phtml", [

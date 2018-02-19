@@ -22,6 +22,7 @@ final class routes {
                     ->setName('books');
 
                 $this->map(['PUT', 'DELETE'], '/admin/books', \controller\adminBooks::class)
+                    ->add(\middleware\admin::class)
                     ->setName('adminBooks');
                 
                 $this->post('/user/logout', \controller\auth\logout::class)
