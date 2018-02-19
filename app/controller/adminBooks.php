@@ -31,6 +31,7 @@ class adminBooks {
 
             if ($this->container->db->has("books", ["id" => $id])) {
                 $this->container->db->delete("books", ["id" => $id]);
+                $this->container->db->delete("lists", ["book" => $id]);
                 $this->redirectWithMessage($response, 'dashboard', "status", ["Kniha odebrána", ""]);
             } else {
                 $this->redirectWithMessage($response, 'dashboard', "error", ["Chyba!", "Kniha nenalezena!"]);

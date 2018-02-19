@@ -32,6 +32,7 @@ class adminUsers {
                 $this->redirectWithMessage($response, 'dashboard', "error", ["Chyba!", "Nelze odebrat admina"]);
             } else if ($this->container->db->has("users", ["id" => $id])) {
                 $this->container->db->delete("users", ["id" => $id]);
+                $this->container->db->delete("lists", ["user" => $id]);
                 $this->redirectWithMessage($response, 'dashboard', "status", ["Uživatel odebrán", ""]);
             } else {
                 $this->redirectWithMessage($response, 'dashboard', "error", ["Chyba!", "Uživatel nenalezen!"]);

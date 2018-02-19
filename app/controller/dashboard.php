@@ -38,10 +38,12 @@ class dashboard {
                 "state" => $this->container->auth->user['state']
             ]);
         } else if ($level == 1) {
-            $books = $this->container->db->query(
+            $books = $this->container->db->query(//fix me!!
                 "SELECT books.name, books.author, COUNT(lists.book)
-                 FROM books, lists
-                 WHERE lists.book = books.id;")->fetchAll();
+                 FROM books, lists, users
+                 WHERE lists.book = books.id AND lists.user = users.id AND users.state = 2;");
+            if ($books)
+                $books = $books->fetchAll();
             $lists = $this->container->db->select("users", "*", ["state" => 2]);
             $response = $this->sendResponse($request, $response, "dash/teacher.phtml", [
                 "books" => $books,
