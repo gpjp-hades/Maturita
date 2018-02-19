@@ -16,5 +16,13 @@
             "name": "keombre",
             "email": "keombre8@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "app/",
+            "middleware\\": "app/middleware/",
+            "database\\": "db/",
+            "controller\\": "app/controller/"
+        }
+    }
 }
