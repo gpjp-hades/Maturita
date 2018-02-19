@@ -29,6 +29,14 @@ final class routes {
                     ->add(\middleware\admin::class)
                     ->setName('adminUsers');
                 
+                $this->post('/dashboard/approve', \controller\approve::class)
+                    ->add(\middleware\teacher::class)
+                    ->setName('approve');
+                
+                $this->get('/dashboard/list/{id}', \controller\lists::class)
+                    ->add(\middleware\teacher::class)
+                    ->setName('lists');
+
                 $this->post('/user/logout', \controller\auth\logout::class)
                     ->setName('logout');
                 

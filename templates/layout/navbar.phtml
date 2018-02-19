@@ -17,7 +17,7 @@
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
             <span class="glyphicon glyphicon-user"></span>
-            <span>Kánon: <?=$auth->user['id']?></span>
+            <span><?=$auth->user['id']?>:<b><?=\str_replace("_", "", $auth->user['name'])?></b></span>
             <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li>

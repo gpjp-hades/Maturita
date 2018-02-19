@@ -78,7 +78,7 @@ Uživatelé:<br />
         echo "<table>";
         echo "<tr><td>ID</td><td>Jméno</td><td>Třída</td><td>Oprávnění</td><td>Stav</td><td></td></tr>";
         foreach($users as $user) {
-            echo "<tr><td>$user[id]</td><td>$user[name]</td><td>$user[class]</td><td>$user[level]</td><td>$user[state]</td><td><button onclick='delUser($user[id])'>Odebrat</button></td></tr>" . PHP_EOL;
+            echo "<tr><td><a href='".$router->pathFor("lists", ["id" => $user['id']])."'>$user[id]</a></td><td>$user[name]</td><td>$user[class]</td><td>$user[level]</td><td>$user[state]</td><td><button onclick='delUser($user[id])'>Odebrat</button></td></tr>" . PHP_EOL;
         }
         echo "</table>";
 ?>

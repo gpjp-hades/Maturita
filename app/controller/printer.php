@@ -13,7 +13,9 @@ class printer {
     }
 
     function __invoke($request, $response) {
-
+        if ($this->container->db->has("users", ["AND" => ["id" => $this->container->auth->user['id'], "state" => 0]])) {
+            $this->container->db->update("users", ["state" => 1], ["id" => $this->container->auth->user['id']]);
+        }
         $this->sendResponse($request, $response, "printer.phtml");
 
         return $response;
