@@ -28,13 +28,14 @@ class seed {
             class TEXT NULL,
             token TEXT NULL,
             level INTEGER DEFAULT 0,
+            state INTEGER DEFAULT 0,
             lastActive INTEGER NULL
         );");
         
         if (!$this->db->has("users", ["name" => "admin"])) {
             $this->db->insert("users", [
                 "id"   => "1",
-                "name" => "admin", 
+                "name" => "_admin", 
                 "pass" => password_hash("admin", PASSWORD_DEFAULT),
                 "level" => 2
             ]);
@@ -45,7 +46,7 @@ class seed {
             name TEXT,
             author TEXT,
             region INT,
-            genere TEXT
+            genere INT
         );");
 
         $this->db->query("CREATE TABLE IF NOT EXISTS lists (

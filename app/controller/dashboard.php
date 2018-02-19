@@ -14,18 +14,16 @@ class dashboard {
 
     function __invoke($request, $response, $args) {
 
-        $level = $this->container->auth->level();
+        $level = $this->container->auth->user['level'];
         if ($level == 0) {
 
             $id = $this->container->auth->user['id'];
 
-            
             $books = $this->container->db->query(
                 "SELECT books.name, books.author, books.region, books.genere, books.id
                  FROM books, lists
                  WHERE $id = lists.user AND lists.book = books.id;")->fetchAll();
             
-            //var_dump($this->container->db->query("SELECT * FROM books;")->fetchAll());
             /*$this->container->db->insert("books", [
                 "name" => "kniha",
                 "author" => "já",
@@ -33,17 +31,19 @@ class dashboard {
                 "genere" => "proza"
             ]);*/
 
-            //$this->container->db->insert("lists", ["user"=>64065, "book" => 1]);
-
             $response = $this->sendResponse($request, $response, "dash/pupil.phtml", [
                 "uname" => $this->container->auth->user['name'],
                 "class" => $this->container->auth->user['class'],
-                "books" => $books
+                "books" => $books,
+                "state" => $this->container->auth->user['state']
             ]);
         } else if ($level == 1) {
             $response = $this->sendResponse($request, $response, "dash/teacher.phtml");
         } else if ($level == 2) {
-            $response = $this->sendResponse($request, $response, "dash/admin.phtml");
+            $books = $this->container->db->select("books", "*");
+            $response = $this->sendResponse($request, $response, "dash/admin.phtml", [
+                "books" => $books
+            ]);
         }
 
         return $response;

@@ -31,6 +31,22 @@ class auth {
         return false;
     }
 
+    function loginAdmin($name, $pass) {
+        if ($hash = $this->db->get("users", "pass", ["name" => $name])) {
+            if (password_verify($pass, $hash)) {
+                do {
+                    $token = bin2hex(\openssl_random_pseudo_bytes(4));
+                } while ($this->db->has("users", ["token" => $token]));
+                
+                $_SESSION['token'] = $token;
+                $this->db->update("users", ["token" => $token], ["name" => $name]);
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
     function logout() {
         if (!$this->logged())
             return false;
@@ -65,13 +81,6 @@ class auth {
         if (is_string(@$_SESSION['token']) && strlen(@$_SESSION['token']) == 8)
             return true;
         return false;
-    }
-
-    function level() {
-        if (!$this->logged())
-            return false;
-        
-        return $this->db->get("level", ["token" => $_SESSION['token']]);
     }
 
     function changePass($pass) {

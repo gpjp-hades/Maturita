@@ -24,11 +24,17 @@ class index {
             $name = filter_var(@$data['name'], FILTER_SANITIZE_STRING);
             $pass = filter_var(@$data['pass'], FILTER_SANITIZE_STRING);
             
-            if ($this->container->auth->login($name, $pass)) {
+            if (substr($name, 0, 1) == "_") {
+                if ($this->container->auth->loginAdmin($name, $pass)) {
+                    $response = $response->withRedirect($this->container->router->pathFor('dashboard'), 301);
+                } else {
+                    sleep(2);
+                    $this->redirectWithMessage($response, 'index', "error", ["Přihlášení selhalo", "Zkuste to znovu"]);
+                }
+            } else if ($this->container->auth->login($name, $pass)) {
                 $response =  $response->withRedirect($this->container->router->pathFor('dashboard'), 301);
             } else {
                 sleep(2);
-
                 $this->redirectWithMessage($response, 'index', "error", ["Přihlášení selhalo", "Zkuste to znovu"]);
             }
         }

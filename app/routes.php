@@ -14,9 +14,15 @@ final class routes {
                     ->setName('search');
                 $this->get('/dashboard/search/{bookName}', \controller\search::class)
                     ->setName('search');
+
+                $this->post('/dashboard/print', \controller\printer::class)
+                    ->setName('printer');
                 
                 $this->map(['PUT', 'DELETE'], '/books', \controller\books::class)
                     ->setName('books');
+
+                $this->map(['PUT', 'DELETE'], '/admin/books', \controller\adminBooks::class)
+                    ->setName('adminBooks');
                 
                 $this->post('/user/logout', \controller\auth\logout::class)
                     ->setName('logout');
