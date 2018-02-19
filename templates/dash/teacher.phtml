@@ -1,0 +1,66 @@
+<?php require __dir__."/../layout/app.phtml"?>
+<script>
+function add (id) {
+    document.getElementById('id').value=id;
+    document.getElementById('add').submit();
+}
+</script>
+<?php
+if ($state == 1) {
+    echo "Tento kánon již byl uzavřen. Pokud potřebujete provést změny, založte si nový.<br />
+    Tento kánon čeká na schválení. Pro schválení, kánon vytiskněte a předejte svému vyučijícímu češtiny.<br />";
+} else if ($state == 2) {
+    echo "Tento kánon je schválen.<br />";
+}
+?>
+jméno: <?=$uname?><br />
+třída: <?=$class?><br />
+
+<?php if ($state == 0):?>
+
+<form class="form-horizontal" method="post" action="<?=$router->pathFor('search')?>">
+    <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+    <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
+    <div class="form-group">
+        <label class="col-md-4 control-label" for="bookName">Vyhledejte knihu:</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="bookName" id="bookName" required autofocus>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8 col-md-offset-4">
+            <input class="btn btn-primary" type="submit" value="Hledat">
+        </div>
+    </div>
+</form>
+<?php endif;?>
+Díla:<br />
+<?php
+    if (is_array(@$books)) {
+        echo "<table>";
+        echo "<tr><td>Autor</td><td>Dílo</td><td>Období</td><td>Žánr</td><td></td></tr>";
+        foreach($books as $book) {
+            echo "<tr><td>$book[0]</td><td>$book[1]</td><td>$book[2]</td><td>$book[3]</td><td>";
+            if ($state == 0) 
+                echo "<button onclick='add($book[4])'>Odebrat</button></td>";
+            echo "</tr>" . PHP_EOL;
+        }
+        echo "</table>";
+        if ($state == 0):?>
+<form method="post" class="form" action="<?=$router->pathFor('books')?>" id="add">
+    <input type="hidden" name="_METHOD" value="DELETE" />
+    <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+    <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
+    <input type="hidden" name="id" id="id" >
+</form>
+    <?php endif;
+    } else {
+        echo "Nemáte přidané žádné knihy."; 
+    }
+?>
+<br />
+<form method="post" class="form" action="<?=$router->pathFor('printer')?>">
+    <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+    <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
+    <input type="submit" value="<?php if ($state == 0) { echo "Uzavřít a vytisknout";} else {echo "Vytisknout";};?>">
+</form>

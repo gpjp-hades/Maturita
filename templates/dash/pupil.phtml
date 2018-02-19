@@ -6,8 +6,11 @@ function add (id) {
 }
 </script>
 <?php
-if ($state != 0) {
-    echo "Tento kánon již byl uzavřen. Pokud potřebujete provést změny, založte si nový.<br />";
+if ($state == 1) {
+    echo "Tento kánon již byl uzavřen. Pokud potřebujete provést změny, založte si nový.<br />
+    Tento kánon čeká na schválení. Pro schválení, kánon vytiskněte a předejte svému vyučijícímu češtiny.<br />";
+} else if ($state == 2) {
+    echo "Tento kánon je schválen.<br />";
 }
 ?>
 jméno: <?=$uname?><br />

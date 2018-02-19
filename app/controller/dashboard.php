@@ -41,8 +41,10 @@ class dashboard {
             $response = $this->sendResponse($request, $response, "dash/teacher.phtml");
         } else if ($level == 2) {
             $books = $this->container->db->select("books", "*");
+            $users = $this->container->db->select("users", "*");
             $response = $this->sendResponse($request, $response, "dash/admin.phtml", [
-                "books" => $books
+                "books" => $books,
+                "users" => $users
             ]);
         }
 

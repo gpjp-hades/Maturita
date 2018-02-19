@@ -57,8 +57,13 @@ class auth {
     }
 
     function register($id, $name, $pass, $class, $level = 0) {
-        if ($this->db->has("users", ["id" => $id]))
+        if (is_null($id)) {
+            do {
+                $id = mt_rand(100, 999);
+            } while ($this->db->has("users", ["id" => $id]));
+        } else if ($this->db->has("users", ["id" => $id])) {
             return false;
+        }
         
         /*if (strlen($name) > 20 || strlen($pass) > 20)
             return false;*/

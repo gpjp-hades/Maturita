@@ -1,6 +1,6 @@
 {
     "name": "gpjp/maturita",
-    "description": "All-in-one solution for language kanon",
+    "description": "All-in-one solution for kanon",
     "type": "project",
     "require": {
         "slim/slim": "^3.9",

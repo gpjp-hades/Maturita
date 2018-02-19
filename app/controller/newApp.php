@@ -25,9 +25,11 @@ class newApp {
             $class = filter_var(@$data['class'], FILTER_SANITIZE_STRING);
             
             if (!(is_string($name) && strlen($name) > 0)) {
-                $this->redirectWithMessage($response, 'index', "newApp", ["Chyba!", "Vyplňte jméno!"]);
+                $this->redirectWithMessage($response, 'newApp', "error", ["Chyba!", "Vyplňte jméno!"]);
+            } else if (strpos($name, "_") !== false) {
+                $this->redirectWithMessage($response, 'newApp', "error", ["Chyba!", "Nepoužívejte speciální znaky!"]);
             } else if (!(is_string($class) && strlen($class) == 1)) {
-                $this->redirectWithMessage($response, 'index', "newApp", ["Chyba!", "Zvolte třídu!"]);
+                $this->redirectWithMessage($response, 'newApp', "error", ["Chyba!", "Zvolte třídu!"]);
             } else if (
                 is_string($_SESSION['APP_ID']) && strlen($_SESSION['APP_ID']) == 5 &&
                 is_string($_SESSION['APP_PASS']) && strlen($_SESSION['APP_PASS']) > 7

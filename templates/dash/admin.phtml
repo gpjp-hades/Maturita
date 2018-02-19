@@ -4,6 +4,10 @@ function add (id) {
     document.getElementById('id').value=id;
     document.getElementById('add').submit();
 }
+function delUser (id) {
+    document.getElementById('idDel').value=id;
+    document.getElementById('delUser').submit();
+}
 </script>
 
 <span>Přidat knihu</span>
@@ -67,3 +71,48 @@ Díla:<br />
         echo "Žádné knihy nenalezeny."; 
     }
 ?>
+
+Uživatelé:<br />
+<?php
+    if (is_array(@$users)) {
+        echo "<table>";
+        echo "<tr><td>ID</td><td>Jméno</td><td>Třída</td><td>Oprávnění</td><td>Stav</td><td></td></tr>";
+        foreach($users as $user) {
+            echo "<tr><td>$user[id]</td><td>$user[name]</td><td>$user[class]</td><td>$user[level]</td><td>$user[state]</td><td><button onclick='delUser($user[id])'>Odebrat</button></td></tr>" . PHP_EOL;
+        }
+        echo "</table>";
+?>
+<form method="post" class="form" action="<?=$router->pathFor('adminUsers')?>" id="delUser">
+    <input type="hidden" name="_METHOD" value="DELETE" />
+    <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+    <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
+    <input type="hidden" name="id" id="idDel" >
+</form>
+    <?php
+    } else {
+        echo "Žádní uživatelé nenalezeni."; 
+    }
+?>
+
+<span>Přidat učitele</span>
+<form class="form-horizontal" method="post" action="<?=$router->pathFor('adminUsers')?>">
+    <input type="hidden" name="_METHOD" value="PUT" />
+    <input type="hidden" name="<?= $csrf['nameKey'] ?>" value="<?= $csrf['name'] ?>">
+    <input type="hidden" name="<?= $csrf['valueKey'] ?>" value="<?= $csrf['value'] ?>">
+    <div class="form-group">
+        Před jmeno bude přidán podčárník
+        <label class="col-md-4 control-label" for="name">Jméno:</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="name" id="name" required autofocus>
+        </div>
+        <label class="col-md-4 control-label" for="pass">Heslo:</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="pass" id="pass" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-8 col-md-offset-4">
+            <input class="btn btn-primary" type="submit" value="Přidat učitele">
+        </div>
+    </div>
+</form>
